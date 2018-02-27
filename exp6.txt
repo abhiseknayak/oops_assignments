@@ -1,0 +1,89 @@
+#include<iostream>
+using namespace std;
+
+class US_Currency;
+
+class Indian_Currency
+{
+    int Rupees;
+    int Paise;
+public:
+    void get_currency(int,int);
+    void show_currency();
+    friend Indian_Currency Add_Currency(Indian_Currency,US_Currency);
+};
+
+
+void Indian_Currency::get_currency(int a, int b)
+{
+    Rupees=a;
+    Paise=b;
+    if(Paise>99)
+    {
+        int i=Paise/100;
+        Rupees+=i;
+        Paise%=100;
+
+    }
+}
+
+
+void Indian_Currency::show_currency()
+{
+    cout<<"the amount of rupees is :"<<Rupees<<'\n';
+    cout<<"the amount of paise is :"<<Paise<<'\n';
+}
+
+class US_Currency
+{
+    int Dollars;
+    int Cents;
+public:
+    void get_currency(int,int);
+    void show_currency();
+    friend Indian_Currency Add_Currency(Indian_Currency,US_Currency);
+
+};
+
+void US_Currency::get_currency(int a, int b)
+{
+    Dollars=a;
+    Cents=b;
+    if(Cents>99)
+    {
+        int i=Cents/100;
+        Dollars+=i;
+        Cents%=100;
+
+    }
+}
+
+void US_Currency::show_currency()
+{
+    cout<<"the amount of dollars is :"<<Dollars<<'\n';
+    cout<<"the amount of cents is :"<<Cents<<'\n';
+}
+
+Indian_Currency Add_Currency(Indian_Currency a,US_Currency b)
+{
+    int temp1;
+    Indian_Currency x;
+    temp1=a.Rupees*100+b.Dollars*62*100+a.Paise+(b.Cents)*62;
+    x.get_currency(0,temp1);
+    return x;
+
+}
+
+
+int main()
+{
+    Indian_Currency first,second;
+    US_Currency one;
+    first.get_currency(2,9045);
+    first.show_currency();
+    one.get_currency(45,780);
+    one.show_currency();
+    second=Add_Currency(first,one);
+    second.show_currency();
+    return 0;
+}

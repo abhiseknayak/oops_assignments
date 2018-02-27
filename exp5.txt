@@ -1,0 +1,123 @@
+#include <iostream>
+using namespace std;
+
+
+class Date
+{
+    int day;
+    int month;
+    int year;
+public:
+    void set_date(int,int,int);
+    void show_date();
+    void add_days(int);
+    void subtract_days(int);
+
+};
+
+
+void Date::set_date(int d,int m,int y)
+{
+    day=d;
+    month=m;
+    year=y;
+    int arr[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+    while(arr[month]<day)
+    {
+        int temp=day-arr[month];
+        day=temp;
+        if(month!=12)
+            month++;
+        else
+        {
+            month=1;
+            year++;
+        }
+
+    }
+
+
+}
+
+
+void Date::show_date()
+{
+    cout<<"the date is :\n";
+    cout<<"the day is : "<<day<<'\n';
+    cout<<"the month is : "<<month<<'\n';
+    cout<<"the year is : "<<year<<'\n';
+
+}
+
+void Date::add_days(int num)
+{
+    int ne=num+day;
+    set_date(ne,month,year);
+    show_date();
+}
+
+void Date::subtract_days(int num)
+{
+    int arr[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+    int ne=day-num;
+    if(ne>0)
+        day=ne;
+    else if(ne==0)
+    {
+        if(month!=1)
+            day=arr[month-1];
+        else
+        {
+            day=arr[12];
+            year--;
+        }
+    }
+    else
+    {
+        while(ne<0)
+        {
+            if(month!=1)
+            {
+                ne+=arr[month-1];
+                month--;
+
+            }
+            else
+            {
+                ne+=arr[12];
+                month=12;
+                year--;
+            }
+        }
+        if(ne==0)
+        {
+            if(month!=1)
+                day=arr[month-1];
+            else
+            {
+                day=arr[12];
+                year--;
+            }
+
+        }
+        else
+            day=ne;
+    }
+    show_date();
+
+}
+
+
+
+
+int main() {
+    Date a,b;
+    a.set_date(14,3,2017);
+    a.show_date();
+    a.subtract_days(65);
+    b.set_date(8,1,2017);
+    b.show_date();
+    a.add_days(65);
+
+    return 0;
+}

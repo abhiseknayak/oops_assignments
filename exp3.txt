@@ -1,0 +1,104 @@
+#include <iostream>
+using namespace std;
+class DistanceFI;
+class DistanceMC;
+
+class DistanceFI
+{
+    int feet;
+    int inches;
+public:
+    void get_distance(int ,int);
+    void show_distance();
+    friend DistanceMC fi_to_mc(DistanceFI);
+    //friend DistanceFI mc_to_fi(DistanceMC);
+};
+
+void DistanceFI::get_distance(int a,int b)
+{
+    feet=a;
+    inches=b;
+    if(inches>11)
+    {
+        int temp=inches/12;
+        feet+=temp;
+        inches%=12;
+    }
+}
+
+void DistanceFI::show_distance()
+{
+    cout<<"the distance in feet is :"<<feet<<'\n';
+    cout<<"the distance in inches is :"<<inches<<'\n';
+
+}
+
+class DistanceMC
+{
+    int metres;
+    int centi;
+public:
+    void get_distance(int ,int);
+    void show_distance();
+    //friend DistanceMC fi_to_mc(DistanceFI);
+    friend DistanceFI mc_to_fi(DistanceMC);
+
+};
+
+void DistanceMC::get_distance(int a,int b)
+{
+    metres=a;
+    centi=b;
+    if(centi>99)
+    {
+        int temp=centi/100;
+        metres+=temp;
+        centi%=100;
+    }
+}
+
+
+void DistanceMC::show_distance()
+{
+    cout<<"the distance in metres is :"<<metres<<'\n';
+    cout<<"the distance in centimetres is :"<<centi<<'\n';
+
+}
+
+
+DistanceFI mc_to_fi(DistanceMC b)
+{
+    DistanceFI x;
+    int temp1=0;
+    temp1+=(39.37*b.metres+b.centi*.394);
+    x.get_distance(0,temp1);
+    return x;
+
+}
+
+
+DistanceMC fi_to_mc(DistanceFI a)
+{
+    DistanceMC x;
+    int temp1=0;
+    temp1+=(a.feet*30.48+a.inches*2.54);
+    x.get_distance(0,temp1);
+    return x;
+}
+
+
+int main() {
+
+    DistanceMC first,second;
+    DistanceFI one,two;
+    first.get_distance(100,40);
+    first.show_distance();
+    two=mc_to_fi(first);
+    two.show_distance();
+    one.get_distance(329,4);
+    one.show_distance();
+    second=fi_to_mc(one);
+    second.show_distance();
+
+    return 0;
+}
