@@ -1,0 +1,155 @@
+#include<iostream>
+using namespace std;
+
+class Matrix
+{
+	private:
+		int matrix[100][100];
+		int row,col;
+	public:
+		Matrix(int r,int c)
+		{
+			row = r;
+			col = c;
+			for(int i = 0 ; i < row ; i++)
+				for(int j = 0 ; j < col ; j++)
+					matrix[i][j]=0;
+		}
+		void get_matrix()
+		{
+			cout<<"Enter a "<<row<<" X "<<col<<" Matrix : "<<endl;
+			for(int i = 0 ; i < row ; i++)
+				for(int j = 0 ; j < col ; j++)
+					cin>>matrix[i][j];
+		}
+		void show_matrix()
+		{
+			for(int i = 0 ; i < row ; i++)
+			{
+				for(int j = 0 ; j < col ; j++)
+				{
+					cout<<matrix[i][j]<<"  ";
+				}
+				cout<<endl;
+			}
+		}
+		void operator +(Matrix matrix1)
+		{
+			if(row!=matrix1.row || col!=matrix1.col)
+			{
+				cout<<"Addition is not possible"<<endl;
+			}
+			else
+			{
+				Matrix result(row,col);
+				for(int i = 0 ; i < row ; i++)
+					for(int j = 0 ; j < col ; j++)
+						result.matrix[i][j]=matrix[i][j]+matrix1.matrix[i][j];
+				cout<<"RESULT:"<<endl;
+				result.show_matrix();
+			}
+		}
+		void operator -(Matrix matrix1)
+		{
+			if(row!=matrix1.row || col!=matrix1.col)
+			{
+				cout<<"Subtraction is not possible"<<endl;
+			}
+			else
+			{
+				Matrix result(row,col);
+				for(int i = 0 ; i < row ; i++)
+					for(int j = 0 ; j < col ; j++)
+						result.matrix[i][j]=matrix[i][j]-matrix1.matrix[i][j];
+				cout<<"RESULT:"<<endl;
+				result.show_matrix();
+			}
+		}
+		void operator *(Matrix matrix1)
+		{
+			if(col != matrix1.row)
+			{
+				cout<<"Multiplication is not possible"<<endl;
+			}
+			else
+			{
+				Matrix result(row,matrix1.col);
+				for(int i = 0 ; i < row ; i++)
+				{
+					for(int j = 0 ; j < matrix1.col ; j++)
+					{
+						for(int k = 0 ; k < col ; k++)
+						{
+							result.matrix[i][j] += matrix[i][k] * matrix1.matrix[k][j];
+						}
+					}
+				}
+				cout<<"RESULT:"<<endl;
+				result.show_matrix();
+			}
+		}
+		int operator ==(Matrix matrix1)
+		{
+			if(row!=matrix1.row || col!=matrix1.col)
+			{
+				return 0;
+			}
+			else
+			{
+				for(int i = 0 ; i < row ; i++)
+				{
+					for(int j = 0 ; j < col ; j++)
+					{
+						if (matrix[i][j]!=matrix1.matrix[i][j])
+						{
+							return 0;
+						}
+					}
+				}
+				return 1;
+			}
+		}
+};
+int main()
+{
+	int r,c,choice;
+	cout<<"Enter the dimensions of First Matrix(row X col) : ";
+	cin>>r>>c;
+	Matrix m1(r,c);
+	m1.get_matrix();
+	cout<<"Enter the dimensions of Second Matrix(row X col) : ";
+	cin>>r>>c;
+	Matrix m2(r,c);
+	m2.get_matrix();
+	while (1)
+	{
+		cout<<"1.Add the Matrices"<<endl;
+		cout<<"2.Subtract the Matrices"<<endl;
+		cout<<"3.Multiply the Matrices"<<endl;
+		cout<<"4.Check for equality"<<endl;
+		cout<<"5.Exit"<<endl;
+		cout<<"Enter your choice : ";
+		cin>>choice;
+		switch(choice)
+		{
+			case 1:
+				m1+m2;
+				break;
+			case 2:
+				m1-m2;
+				break;
+			case 3:
+				m1*m2;
+				break;
+			case 4:
+				if(m1==m2)
+					cout<<"The Matrices are Equal"<<endl;
+				else
+					cout<<"The Matrices are Unequal"<<endl;
+				break;
+		}
+		if (choice==5)
+			break;
+	}
+	return 0;
+}
